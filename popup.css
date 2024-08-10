@@ -1,0 +1,115 @@
+/* Set a modern font and smooth overall styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    padding: 15px;
+    width: 320px;
+    margin: 0;
+    overflow: hidden; /* Prevents the body from scrolling */
+}
+
+#popup-content {
+    text-align: center;
+    max-height: 400px; /* Limit the height of the popup content */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+h1 {
+    font-size: 20px;
+    color: #4a90e2;
+    margin-bottom: 15px;
+}
+
+/* Flexbox for button and icon alignment */
+.icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px; /* Add space below the button */
+}
+
+.icon-button img.icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px; /* Space between icon and button text */
+}
+
+/* Button styling */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #4a90e2;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #357ABD;
+}
+
+/* Search bar styling */
+#search-bar {
+    width: calc(100% - 20px);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+/* Resource list styling */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+    text-align: left;
+}
+
+li {
+    margin: 10px 0;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Highlighted keywords styling */
+.highlighted-keyword {
+    background-color: yellow;
+    cursor: pointer;
+}
+
+/* Tooltip styling */
+#keyword-tooltip {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1000;
+    max-width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+#keyword-tooltip a {
+    color: #4a90e2;
+}
+
+#keyword-tooltip a:hover {
+    text-decoration: underline;
+}
+
+
+
+

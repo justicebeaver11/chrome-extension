@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Contextual Learning Assistant",
+  "version": "1.1",
+  "description": "Fetch relevant resources from Stack Overflow, GitHub, and other platforms based on the current page's title.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.jpg",
+      "48": "icons/icon48.jpg",
+      "128": "icons/icon128.jpg"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.jpg",
+    "48": "icons/icon48.jpg",
+    "128": "icons/icon128.jpg"
+  },
+  "host_permissions": [
+    "https://api.stackexchange.com/*",
+    "https://api.github.com/*",
+    "https://developer.mozilla.org/*",
+    "https://www.reddit.com/*"
+    
+    
+  ]
+ 
+}
+
