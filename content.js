@@ -5,5 +5,28 @@ console.log("Content script running on:", window.location.href);
 const keywords = document.querySelector('meta[name="keywords"]') ? document.querySelector('meta[name="keywords"]').content : '';
 console.log("Keywords found:", keywords);
 
-// If you plan to extend the functionality, you can use this as a basis for more advanced content analysis
- 
+// This script extracts headings and meta keywords from the document
+// console.log("Content script running on:", window.location.href);
+
+// function extractHeadingsAndKeywords() {
+//     // Extract all headings
+//     const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6')).map(el => el.textContent.trim());
+    
+//     // Extract meta keywords
+//     const metaKeywords = document.querySelector('meta[name="keywords"]') ? document.querySelector('meta[name="keywords"]').content : '';
+
+//     return { headings, metaKeywords };
+// }
+
+// const { headings, metaKeywords } = extractHeadingsAndKeywords();
+
+// console.log("Headings found:", headings);
+// console.log("Meta keywords found:", metaKeywords);
+
+// // Send the extracted data to the background script
+// chrome.runtime.sendMessage({
+//     type: 'documentData',
+//     headings: headings,
+//     keywords: metaKeywords
+// });
+
