@@ -1,3 +1,4 @@
+
 {
   "manifest_version": 3,
   "name": "Contextual Learning Assistant",
@@ -6,11 +7,15 @@
   "permissions": [
     "storage",
     "activeTab",
-    "scripting"
+    "scripting",
+    "tabs",
+    "http://*/",
+    "https://*/"
     
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "scripts": ["scrape.js"]
   },
   "action": {
     "default_popup": "popup.html",
@@ -35,4 +40,3 @@
   ]
  
 }
-

@@ -1,32 +1,50 @@
-// This script will analyze the content of the current web page
+
 console.log("Content script running on:", window.location.href);
 
-// Example: You could extract keywords or analyze the page content here
-const keywords = document.querySelector('meta[name="keywords"]') ? document.querySelector('meta[name="keywords"]').content : '';
+// Extract keywords from meta tags
+const keywordsMetaTag = document.querySelector('meta[name="keywords"]');
+const keywords = keywordsMetaTag ? keywordsMetaTag.content.split(',').map(k => k.trim()) : [];
 console.log("Keywords found:", keywords);
 
-// This script extracts headings and meta keywords from the document
-// console.log("Content script running on:", window.location.href);
+// Extract title and description from the meta tags
+const title = document.title;
+const descriptionMetaTag = document.querySelector('meta[name="description"]');
+const description = descriptionMetaTag ? descriptionMetaTag.content : '';
 
-// function extractHeadingsAndKeywords() {
-//     // Extract all headings
-//     const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6')).map(el => el.textContent.trim());
-    
-//     // Extract meta keywords
-//     const metaKeywords = document.querySelector('meta[name="keywords"]') ? document.querySelector('meta[name="keywords"]').content : '';
+console.log("Page title:", title);
+console.log("Description found:", description);
 
-//     return { headings, metaKeywords };
-// }
+// Send extracted data back to the background script
+chrome.runtime.sendMessage({
+    type: 'pageContentAnalyzed',
+    data: {
+        url: window.location.href,
+        title: title,
+        keywords: keywords,
+        description: description
+    }
+}, response => {
+    console.log("Background script responded with:", response);
+});
 
-// const { headings, metaKeywords } = extractHeadingsAndKeywords();
+// Optional: Extracting visible text content (useful for more in-depth analysis)
+const visibleText = document.body.innerText;
+console.log("Extracted visible text content:", visibleText.slice(0, 200) + "..."); // Log first 200 characters
 
-// console.log("Headings found:", headings);
-// console.log("Meta keywords found:", metaKeywords);
+// Optional: You could analyze the visibleText for key phrases or additional insights
+// E.g., perform a basic keyword density analysis
+function analyzeTextContent(text) {
+    const wordFrequency = {};
+    const words = text.toLowerCase().match(/\b\w+\b/g);
 
-// // Send the extracted data to the background script
-// chrome.runtime.sendMessage({
-//     type: 'documentData',
-//     headings: headings,
-//     keywords: metaKeywords
-// });
+    words.forEach(word => {
+        wordFrequency[word] = (wordFrequency[word] || 0) + 1;
+    });
+
+    return wordFrequency;
+}
+
+const wordFrequency = analyzeTextContent(visibleText);
+console.log("Word frequency analysis:", wordFrequency);
+
 
