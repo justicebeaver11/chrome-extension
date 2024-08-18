@@ -1,21 +1,16 @@
-
 {
   "manifest_version": 3,
   "name": "Contextual Learning Assistant",
   "version": "1.1",
-  "description": "Fetch relevant resources from Stack Overflow, GitHub, and other platforms based on the current page's title.",
+  "description": "Fetch relevant resources from Stack Overflow, GitHub, and other platforms based on the current page's title and subtitles.",
   "permissions": [
     "storage",
     "activeTab",
     "scripting",
-    "tabs",
-    "http://*/",
-    "https://*/"
-    
+    "tabs"
   ],
   "background": {
-    "service_worker": "background.js",
-    "scripts": ["scrape.js"]
+    "service_worker": "background.js"
   },
   "action": {
     "default_popup": "popup.html",
@@ -34,9 +29,9 @@
     "https://api.stackexchange.com/*",
     "https://api.github.com/*",
     "https://developer.mozilla.org/*",
-    "https://www.reddit.com/*"
-    
-    
+    "https://www.reddit.com/*",
+    "https://devdocs.io/*",
+    "https://www.w3schools.com/*"
   ]
- 
 }
+

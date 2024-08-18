@@ -1,4 +1,3 @@
-
 console.log("Content script running on:", window.location.href);
 
 // Extract keywords from meta tags
@@ -11,6 +10,10 @@ const title = document.title;
 const descriptionMetaTag = document.querySelector('meta[name="description"]');
 const description = descriptionMetaTag ? descriptionMetaTag.content : '';
 
+// Extract subtitles or key sections
+const subtitles = Array.from(document.querySelectorAll('h2, h3, h4')).map(el => el.innerText);
+console.log("Subtitles found:", subtitles);
+
 console.log("Page title:", title);
 console.log("Description found:", description);
 
@@ -20,6 +23,7 @@ chrome.runtime.sendMessage({
     data: {
         url: window.location.href,
         title: title,
+        subtitles: subtitles, // Send subtitles to the background script
         keywords: keywords,
         description: description
     }
@@ -29,7 +33,7 @@ chrome.runtime.sendMessage({
 
 // Optional: Extracting visible text content (useful for more in-depth analysis)
 const visibleText = document.body.innerText;
-console.log("Extracted visible text content:", visibleText.slice(0, 200) + "..."); // Log first 200 characters
+console.log("Extracted visible text content:", visibleText.slice(0, 200) + "...");
 
 // Optional: You could analyze the visibleText for key phrases or additional insights
 // E.g., perform a basic keyword density analysis

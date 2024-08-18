@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-bar');
     const getResourcesButton = document.getElementById('get-resources');
@@ -28,10 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const activeTab = tabs[0];
             const query = searchInput.value.trim() !== '' ? searchInput.value.trim() : activeTab.title;
             const selectedPlatform = platformFilter.value;
-            const selectedSort = sortFilter.value;
 
             chrome.runtime.sendMessage(
-                { type: 'fetchResources', query: query, platform: selectedPlatform, sort: selectedSort },
+                { type: 'fetchResources', query: query, platform: selectedPlatform },
                 function(response) {
                     resourcesList.innerHTML = '';
 

@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const query = message.query;
         const selectedPlatform = message.platform;
 
-        // Make sure the query is not too long or empty
+        // Break down the query into smaller chunks if it's too long
         const queryChunks = chunkQuery(query);
 
         const fetchFunctions = {
@@ -47,7 +47,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         (async () => {
             const resources = selectedPlatform === 'all' ? await fetchAllPlatforms() : await fetchSinglePlatform(selectedPlatform);
-            sendResponse({ resources: resources });
+            sendResponse({ resources });
         })();
 
         return true; // Keeps the message channel open for async sendResponse
@@ -72,21 +72,14 @@ function chunkQuery(query, maxLength = 200) {
     if (chunk) chunks.push(chunk.trim());
     return chunks;
 }
-
 async function fetchStackOverflowResources(query) {
-    const apiUrl = `https://api.stackexchange.com/2.3/search/advanced?order=desc&sort=relevance&q=${encodeURIComponent(query)}&site=stackoverflow&filter=!6VvPDzQ)UOOS&pagesize=5`;
+    const apiUrl = `https://api.stackexchange.com/2.3/search/advanced?order=desc&sort=relevance&q=${encodeURIComponent(query)}&site=stackoverflow&pagesize=5`;
 
     try {
         const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error(`Stack Overflow API error: ${response.statusText}`);
-        }
         const data = await response.json();
-        if (data.error_id || data.error_message) {
-            throw new Error(`Stack Overflow API error: ${data.error_message}`);
-        }
-        if (!data.items || data.items.length === 0) {
-            console.warn('No results found for Stack Overflow.');
+        if (!response.ok || data.error_id || !data.items) {
+            console.error('Stack Overflow API error:', data.error_message || response.statusText);
             return [];
         }
         return data.items.map(item => ({
@@ -101,17 +94,17 @@ async function fetchStackOverflowResources(query) {
     }
 }
 
+
+
 async function fetchGitHubRepositories(query) {
     const apiUrl = `https://api.github.com/search/repositories?q=${encodeURIComponent(query)}&sort=stars&order=desc&per_page=5`;
 
     try {
         const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error('GitHub API error');
-        }
         const data = await response.json();
-        if (data.message) {
-            throw new Error(data.message);
+        if (!response.ok || data.message || !data.items) {
+            console.error('GitHub API error:', data.message || response.statusText);
+            return [];
         }
         return data.items.map(repo => ({
             title: repo.full_name,
@@ -163,12 +156,10 @@ async function fetchRedditPosts(query) {
 
     try {
         const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error('Reddit API error');
-        }
         const data = await response.json();
-        if (data.error) {
-            throw new Error(data.error);
+        if (!response.ok || data.error || !data.data || !data.data.children) {
+            console.error('Reddit API error:', data.error || response.statusText);
+            return [];
         }
         return data.data.children.map(post => ({
             title: post.data.title,
@@ -181,8 +172,4 @@ async function fetchRedditPosts(query) {
         return [];
     }
 }
-
-
-
-
 
